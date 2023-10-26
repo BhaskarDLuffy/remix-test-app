@@ -8,16 +8,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useRouteError,
-  isRouteErrorResponse
+  useRouteError
 } from "@remix-run/react";
 import tailwindCssStyleSheet from "~/tailwind.css";
 import {
-  Hydrate,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import { useDehydratedState } from "use-dehydrated-state";
 import aadhanIcon from "../public/favicon.svg";
 
 export const links: LinksFunction = () => [
@@ -41,8 +38,19 @@ export const links: LinksFunction = () => [
 ];
 
 export default function App() {
-  const [queryClient] = useState(() => new QueryClient());
-  const dehydratedState = useDehydratedState();
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // With SSR, we usually want to set some default staleTime
+            // above 0 to avoid refetching immediately on the client
+            staleTime: 2000,
+          },
+        },
+      }),
+  )
+
 
   return (
     <html lang="en">
@@ -54,11 +62,9 @@ export default function App() {
       </head>
       <body>
         <QueryClientProvider client={queryClient}>
-          <Hydrate state={dehydratedState}>
-            <Outlet />
-            <LiveReload />
-          </Hydrate>
+          <Outlet />
         </QueryClientProvider>
+        <LiveReload />
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -68,26 +74,19 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
-
-  if (isRouteErrorResponse(error)) {
-    return (
-      <div>
-        <h1>
-          {error.status} {error.statusText}
-        </h1>
-        <p>{error.data}</p>
-      </div>
-    );
-  } else if (error instanceof Error) {
-    return (
-      <div>
-        <h1>Error</h1>
-        <p>{error.message}</p>
-        <p>The stack trace is:</p>
-        <pre>{error.stack}</pre>
-      </div>
-    );
-  } else {
-    return <h1>Unknown Error</h1>;
-  }
+  console.error(error);
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        {JSON.stringify(error)}
+        {/* add the UI you want your users to see */}
+        <Scripts />
+      </body>
+    </html>
+  );
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { MetaFunction } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, dehydrate, HydrationBoundary,QueryClient } from "@tanstack/react-query";
 import { json } from "@remix-run/cloudflare";
 import {
   MatchSelector,
@@ -39,13 +39,25 @@ export const getMatchData = async () => {
 };
 
 export const loader = async () => {
-  const cricketData = await getMatchData();
-  return json(cricketData);
+  const queryClient = new QueryClient()
+
+  await queryClient.prefetchQuery({
+    queryKey: ['cricketscore'],
+    queryFn: getMatchData,
+  })
+  return json({ dehydratedState: dehydrate(queryClient) })
+  // const cricketData = await getMatchData();
+  // return json(cricketData);
 };
 
-export default function Index() {
-  const cricketData = useLoaderData();
-  console.log("loader data", cricketData);
+
+
+function MatchData() {
+  const { data } = useQuery({ queryKey: ['cricketscore'], queryFn: getMatchData })
+
+  // const cricketData = useLoaderData();
+  // console.log("loader data", cricketData);
+  console.log("loader data", data);
 
   const [interval, setInterval] = useState(10000);
 
@@ -67,14 +79,14 @@ export default function Index() {
   console.log("interval", interval);
 
   //API
-  const { data }: any = useQuery({
-    queryKey: ["cricketscore"],
-    queryFn: getMatchData,
-    refetchInterval: interval,
-    initialData: cricketData,
-    staleTime: 300,
-    enabled: !!MatchTimePeriod,
-  });
+  // const { data }: any = useQuery({
+  //   queryKey: ["cricketscore"],
+  //   queryFn: getMatchData,
+  //   refetchInterval: interval,
+  //   initialData: cricketData,
+  //   staleTime: 300,
+  //   enabled: !!MatchTimePeriod,
+  // });
   const matchApiData = data["match-data"].data;
   const ballByBallApiData = data["ballbyball-data"].data;
   const oddsApiData = data["odds-data"].data;
@@ -333,4 +345,13 @@ export default function Index() {
       </div>
     </div>
   );
+}
+
+export default function Index(){
+  const { dehydratedState } = useLoaderData<typeof loader>();
+  return (
+    <HydrationBoundary state={dehydratedState}>
+      <MatchData />
+    </HydrationBoundary>
+  )
 }
