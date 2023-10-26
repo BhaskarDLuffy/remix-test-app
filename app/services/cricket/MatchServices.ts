@@ -99,37 +99,37 @@ const getPresentMatchParameters = () => {
   return PresentMatchParameters
 }
 
-const getFavourateTeam = (oddsApiData:any, matchApiData:any) =>{
-  if(matchApiData.status === "started"){
-  let teamAPercentage = oddsApiData.match["result_prediction"].automatic.percentage[0].value 
-  let teamBPercentage = oddsApiData.match["result_prediction"].automatic.percentage[1].value 
-  let teamAName = oddsApiData.match["result_prediction"].automatic.percentage[0]["team_key"]
-  let teamBName = oddsApiData.match["result_prediction"].automatic.percentage[1]["team_key"]
-  if(teamAPercentage > teamBPercentage){
-    return teamAName
-  }else{
-    return teamBName
-  }
-}
-}
-const getBetOdds = (oddsApiData:any, matchApiData:any)=>{
-  let favourateTeam = getFavourateTeam(oddsApiData, matchApiData)
-  let betOdds = {
-    high:"",
-    low:""
-  }
-  if(matchApiData.status === "started"){
-  oddsApiData.match["bet_odds"].automatic.fractional.forEach((odds:any)=>{
-    if(favourateTeam === odds["team_key"]){
-      betOdds.high = odds.numerator
-    }
-    else{
-      betOdds.low = odds.numerator
-    }
-  })
-}
-  return betOdds
-}
+// const getFavourateTeam = (oddsApiData:any, matchApiData:any) =>{
+//   if(matchApiData.status === "started"){
+//   let teamAPercentage = oddsApiData.match["result_prediction"].automatic.percentage[0].value 
+//   let teamBPercentage = oddsApiData.match["result_prediction"].automatic.percentage[1].value 
+//   let teamAName = oddsApiData.match["result_prediction"].automatic.percentage[0]["team_key"]
+//   let teamBName = oddsApiData.match["result_prediction"].automatic.percentage[1]["team_key"]
+//   if(teamAPercentage > teamBPercentage){
+//     return teamAName
+//   }else{
+//     return teamBName
+//   }
+// }
+// }
+// const getBetOdds = (oddsApiData:any, matchApiData:any)=>{
+//   let favourateTeam = getFavourateTeam(oddsApiData, matchApiData)
+//   let betOdds = {
+//     high:"",
+//     low:""
+//   }
+//   if(matchApiData.status === "started"){
+//   oddsApiData.match["bet_odds"].automatic.fractional.forEach((odds:any)=>{
+//     if(favourateTeam === odds["team_key"]){
+//       betOdds.high = odds.numerator
+//     }
+//     else{
+//       betOdds.low = odds.numerator
+//     }
+//   })
+// }
+//   return betOdds
+// }
 
 export {
   getBallByBallOverWise,
@@ -139,6 +139,6 @@ export {
   getMatchIntervalPeriod,
   getPresentMatchParameters,
   getDateFromUnix,
-  getFavourateTeam,
-  getBetOdds
+  // getFavourateTeam,
+  // getBetOdds
 }

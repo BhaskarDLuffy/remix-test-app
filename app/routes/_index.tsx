@@ -16,8 +16,8 @@ import {
   getMatchTimePeriod,
   getMatchIntervalPeriod,
   getPresentMatchParameters,
-  getFavourateTeam,
-  getBetOdds,
+  // getFavourateTeam,
+  // getBetOdds,
 } from "~/services/cricket/MatchServices";
 
 export const meta: MetaFunction = () => {
@@ -75,10 +75,10 @@ function MatchData() {
 
   const matchApiData = data["match-data"].data;
   const ballByBallApiData = data["ballbyball-data"].data;
-  const oddsApiData = data["odds-data"].data;
+  // const oddsApiData = data["odds-data"].data;
 
-  const FavourateTeam = getFavourateTeam(oddsApiData, matchApiData)?.toUpperCase();
-  const betOdds = getBetOdds(oddsApiData, matchApiData)
+  // const FavourateTeam = getFavourateTeam(oddsApiData, matchApiData)?.toUpperCase();
+  // const betOdds = getBetOdds(oddsApiData, matchApiData)
   
   //BallbyBall Parameters
   let ballByBallParametersOverWise = getBallByBallOverWise(
@@ -195,7 +195,7 @@ function MatchData() {
             </p>
           </div>
           {/*  */}
-          {matchApiData.status === "started" ? (
+          {/* {matchApiData.status === "started" ? (
             <>
               <div className="winning-probality-container bg-white py-2 px-4 w-full font_poppins flex flex-col items-center justify-center gap-4 rounded-md">
                 <div className="w-full flex justify-between items-center">
@@ -229,7 +229,7 @@ function MatchData() {
             </div>
           </div>
             </>
-          )}
+          )} */}
           {/*  */}
           <div className="batting-score-container">
             {matchApiData.status === "completed" ||
