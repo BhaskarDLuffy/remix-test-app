@@ -1,0 +1,25 @@
+trigger:
+
+- dev
+- release
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Sonarcloudanalysis
+  jobs:
+  - job: Build
+    displayName: 'Build and test'
+    steps:
+    - task: CopyFiles@2
+      inputs:
+        targetFolder: '$(Build.ArtifactStagingDirectory)'    
+    - task: PublishBuildArtifacts@1  
+    - task: swellaby.mirror-git-repository.mirror-git-repository-vsts-task.mirror-git-repository-vsts-task@1
+      displayName: 'Mirror Git Repository to https://github.com/IBEE/aadhan-html5.git'
+      inputs:
+        sourceGitRepositoryUri: 'https://dev.azure.com/AadhanMedia/Aadhan/_git/Aadhan-cricket'
+        sourceGitRepositoryPersonalAccessToken: $(azurenewcred)
+        destinationGitRepositoryUri: 'https://github.com/IBEE/aadhan-html5.git'
+        destinationGitRepositoryPersonalAccessToken: $(gitcredential)

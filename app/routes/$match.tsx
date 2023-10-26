@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { MetaFunction } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useParams } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { json } from "@remix-run/cloudflare";
 import {
@@ -28,7 +28,10 @@ export const meta: MetaFunction = () => {
 };
 
 let presentMatchParameters: any = getPresentMatchParameters();
-export const getMatchData = async () => {
+export const getMatchData = async (dynamicParams: any = {}) => {
+  presentMatchParameters[0].match.filter((params: any) => {
+    return params.countries === dynamicParams;
+  });
   const response: any = await fetch(
     `https://aadhan-test-new-worker.aadhan-test-worker.workers.dev/${presentMatchParameters[0].match[0].key}`
   );
@@ -38,14 +41,16 @@ export const getMatchData = async () => {
   return data;
 };
 
-export const loader = async () => {
-  const cricketData = await getMatchData();
+export const loader = async ({ params }: any) => {
+  const cricketData = await getMatchData(params.match);
   return json(cricketData);
 };
 
-export default function Index() {
+export default function MatchIndex() {
   const cricketData = useLoaderData();
   console.log("loader data", cricketData);
+  const { match } = useParams();
+  console.log("dynamic data", match);
 
   const [interval, setInterval] = useState(10000);
 
@@ -66,6 +71,11 @@ export default function Index() {
   }, [matchIntervalPeriod]);
   console.log("interval", interval);
 
+  useEffect(()=>{
+    presentMatchParameters[0].match.filter((params: any) => {
+        return params.countries === match;
+      });
+  }, [match])
   //API
   const { data }: any = useQuery({
     queryKey: ["cricketscore"],
@@ -79,9 +89,9 @@ export default function Index() {
   const ballByBallApiData = data["ballbyball-data"].data;
   const oddsApiData = data["odds-data"].data;
 
-  const FavourateTeam = getFavourateTeam(oddsApiData, matchApiData)?.toUpperCase();
-  const betOdds = getBetOdds(oddsApiData, matchApiData)
-  
+  const FavourateTeam = getFavourateTeam(oddsApiData, matchApiData).toUpperCase();
+  const betOdds = getBetOdds(oddsApiData, matchApiData);
+
   //BallbyBall Parameters
   let ballByBallParametersOverWise = getBallByBallOverWise(
     matchApiData,
@@ -247,20 +257,19 @@ export default function Index() {
             </>
           ) : (
             <>
-                        <div className="winning-probality-container bg-white py-2 px-4 w-full font_poppins flex flex-col items-center justify-center gap-4 rounded-md">
-            <div className="w-full flex justify-between items-center">
-              <p className="w-full">Winning Probability</p>
-              <p className="w-full text-end font-medium">
-                
-                <span className="px-2 py-1 bg-[#D7595A] text-white rounded-md">
-                  0
-                </span>{" "}
-                <span className="px-2 py-1 text-white bg-[#34A635] rounded-md">
-                  0
-                </span>
-              </p>
-            </div>
-            {/* <div className="w-full flex justify-between items-center">
+              <div className="winning-probality-container bg-white py-2 px-4 w-full font_poppins flex flex-col items-center justify-center gap-4 rounded-md">
+                <div className="w-full flex justify-between items-center">
+                  <p className="w-full">Winning Probability</p>
+                  <p className="w-full text-end font-medium">
+                    <span className="px-2 py-1 bg-[#D7595A] text-white rounded-md">
+                      0
+                    </span>{" "}
+                    <span className="px-2 py-1 text-white bg-[#34A635] rounded-md">
+                      0
+                    </span>
+                  </p>
+                </div>
+                {/* <div className="w-full flex justify-between items-center">
               <p className="w-full">30 Over Runs: </p>
               <p className="flex justify-start items-center gap-1">
                 <span className="px-2 py-1 bg-[#D7595A] text-white rounded-md">
@@ -280,7 +289,7 @@ export default function Index() {
                 </span>
               </p>
             </div> */}
-            {/* <div className="w-full flex justify-between items-center">
+                {/* <div className="w-full flex justify-between items-center">
               <p className="w-full">1st Innings Total Runs:</p>
               <p className="w-full text-end font-medium">
                 <span className="px-2 py-1 bg-[#D7595A] text-white rounded-md">
@@ -291,7 +300,7 @@ export default function Index() {
                 </span>
               </p>
             </div> */}
-          </div>
+              </div>
             </>
           )}
           {/*  */}
