@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "remix-cpage-app",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -17,6 +17,7 @@
     "@remix-run/cloudflare": "^2.1.0",
     "@remix-run/cloudflare-pages": "^2.1.0",
     "@remix-run/css-bundle": "^2.1.0",
+    "@remix-run/node": "^2.1.0",
     "@remix-run/react": "^2.1.0",
     "@tanstack/react-query": "^5.0.5",
     "class-variance-authority": "^0.7.0",
