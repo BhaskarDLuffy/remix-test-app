@@ -26,10 +26,11 @@ export const getMatchData = async () => {
 export const loader = async () => {
   const queryClient = new QueryClient()
 
-  await queryClient.prefetchQuery({
+  const pt = await queryClient.prefetchQuery({
     queryKey: ['cricketscore'],
     queryFn: getMatchData,
   })
+  console.log("prefecched data", pt);
   
   return json({ dehydratedState: dehydrate(queryClient) })
 };
@@ -52,6 +53,7 @@ function MatchData() {
 
   const { data } = useQuery({ queryKey: ['cricketscore'], queryFn: getMatchData, refetchInterval:interval,enabled:!!matchTimePeriod })
   console.log("loader data", data);
+  console.log("mt check", !!matchTimePeriod);
   
   let matchApiData = {};
   let ballByBallApiData = {};
