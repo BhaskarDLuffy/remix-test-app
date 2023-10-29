@@ -50,6 +50,7 @@ function MatchData() {
   return (
     <>
       <h1>Jai Vinayaka</h1>
+      <p>{JSON.stringify(data)}</p>
     </>
   );
 }
