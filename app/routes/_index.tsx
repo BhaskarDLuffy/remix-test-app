@@ -11,14 +11,14 @@ import {
   BowlingSkeleton,
   LiveStepperCarousel,
 } from "../components/cricket";
-import {
-  getBallByBallOverWise,
-  getMatchTimePeriod,
-  getMatchIntervalPeriod,
-  getPresentMatchParameters,
-  // getFavourateTeam,
-  // getBetOdds,
-} from "~/services/cricket/MatchServices";
+// import {
+//   getBallByBallOverWise,
+//   getMatchTimePeriod,
+//   getMatchIntervalPeriod,
+//   getPresentMatchParameters,
+//   // getFavourateTeam,
+//   // getBetOdds,
+// } from "~/services/cricket/MatchServices";
 
 export const meta: MetaFunction = () => {
   return [
@@ -52,7 +52,7 @@ function MatchData() {
   const { data } = useQuery({ queryKey: ['cricketscore'], queryFn: getMatchData })
   console.log("loader data", data);
 
-  const [interval, setInterval] = useState(10000);
+  // const [interval, setInterval] = useState(10000);
 
   // let MatchTimePeriod = getMatchTimePeriod();
   // let matchIntervalPeriod = getMatchIntervalPeriod();
@@ -72,7 +72,7 @@ function MatchData() {
   // console.log("interval", interval);
 
   const matchApiData = data["match-data"].data;
-  const ballByBallApiData = data["ballbyball-data"].data;
+  // const ballByBallApiData = data["ballbyball-data"].data;
   
   //BallbyBall Parameters
   // let ballByBallParametersOverWise = getBallByBallOverWise(
