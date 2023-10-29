@@ -46,8 +46,6 @@ export const loader = async () => {
     queryFn: getMatchData,
   })
   return json({ dehydratedState: dehydrate(queryClient) })
-  // const cricketData = await getMatchData();
-  // return json(cricketData);
 };
 
 function MatchData() {
@@ -56,35 +54,31 @@ function MatchData() {
 
   const [interval, setInterval] = useState(10000);
 
-  let MatchTimePeriod = getMatchTimePeriod();
-  let matchIntervalPeriod = getMatchIntervalPeriod();
-  console.log(
-    "mt check",
-    !!MatchTimePeriod,
-    "mt interval",
-    !!matchIntervalPeriod
-  );
-  useEffect(() => {
-    if (matchIntervalPeriod) {
-      setInterval(10000);
-    } else {
-      setInterval(0);
-    }
-  }, [matchIntervalPeriod]);
-  console.log("interval", interval);
+  // let MatchTimePeriod = getMatchTimePeriod();
+  // let matchIntervalPeriod = getMatchIntervalPeriod();
+  // console.log(
+  //   "mt check",
+  //   !!MatchTimePeriod,
+  //   "mt interval",
+  //   !!matchIntervalPeriod
+  // );
+  // useEffect(() => {
+  //   if (matchIntervalPeriod) {
+  //     setInterval(10000);
+  //   } else {
+  //     setInterval(0);
+  //   }
+  // }, [matchIntervalPeriod]);
+  // console.log("interval", interval);
 
   const matchApiData = data["match-data"].data;
   const ballByBallApiData = data["ballbyball-data"].data;
-  // const oddsApiData = data["odds-data"].data;
-
-  // const FavourateTeam = getFavourateTeam(oddsApiData, matchApiData)?.toUpperCase();
-  // const betOdds = getBetOdds(oddsApiData, matchApiData)
   
   //BallbyBall Parameters
-  let ballByBallParametersOverWise = getBallByBallOverWise(
-    matchApiData,
-    ballByBallApiData
-  );
+  // let ballByBallParametersOverWise = getBallByBallOverWise(
+  //   matchApiData,
+  //   ballByBallApiData
+  // );
 
   return (
     <div className="cricket-container w-full h-[100svh] flex items-center justify-center relative">
@@ -194,43 +188,6 @@ function MatchData() {
               )}
             </p>
           </div>
-          {/*  */}
-          {/* {matchApiData.status === "started" ? (
-            <>
-              <div className="winning-probality-container bg-white py-2 px-4 w-full font_poppins flex flex-col items-center justify-center gap-4 rounded-md">
-                <div className="w-full flex justify-between items-center">
-                  <p className="w-full">Winning Probability</p>
-                  <p className="w-full text-end font-medium">
-                    {FavourateTeam}:{" "}
-                    <span className="px-2 py-1 bg-[#D7595A] text-white rounded-md">
-                      {betOdds.low}
-                    </span>{" "}
-                    <span className="px-2 py-1 text-white bg-[#34A635] rounded-md">
-                      {betOdds.high}
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </>
-          ) : (
-            <>
-                        <div className="winning-probality-container bg-white py-2 px-4 w-full font_poppins flex flex-col items-center justify-center gap-4 rounded-md">
-            <div className="w-full flex justify-between items-center">
-              <p className="w-full">Winning Probability</p>
-              <p className="w-full text-end font-medium">
-                
-                <span className="px-2 py-1 bg-[#D7595A] text-white rounded-md">
-                  0
-                </span>{" "}
-                <span className="px-2 py-1 text-white bg-[#34A635] rounded-md">
-                  0
-                </span>
-              </p>
-            </div>
-          </div>
-            </>
-          )} */}
-          {/*  */}
           <div className="batting-score-container">
             {matchApiData.status === "completed" ||
             matchApiData.status === "not_started" ? (
