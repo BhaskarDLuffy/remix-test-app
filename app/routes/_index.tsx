@@ -50,8 +50,8 @@ function MatchData() {
   let matchApiData = {};
   let ballByBallApiData = {};
   try{
-    matchApiData = data["match-data"]?.data;
-    ballByBallApiData = data["ballbyball-data"].data;
+    matchApiData = data?.["match-data"]?.data;
+    ballByBallApiData = data?.["ballbyball-data"]?.data;
   }catch(error){
     console.log(error);
   }
@@ -59,7 +59,13 @@ function MatchData() {
   return (
     <>
       <h1 className="text-center text-orange-500 text-[3rem]">Jai Vinayaka</h1>
-      <p>{JSON.stringify(matchApiData)}</p>
+      <p>
+        {matchApiData ?
+        JSON.stringify(matchApiData)
+        :
+        <>loading...................</>
+        }
+      </p>
       <hr />
     </>
   );
