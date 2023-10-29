@@ -47,10 +47,15 @@ function MatchData() {
   const { data } = useQuery({ queryKey: ['cricketscore'], queryFn: getMatchData, refetchInterval:interval })
   console.log("loader data", data);
 
+  const matchApiData = data["match-data"].data;
+  const ballByBallApiData = data["ballbyball-data"].data;
+
   return (
     <>
-      <h1>Jai Vinayaka</h1>
-      <p>{JSON.stringify(data)}</p>
+      <h1 className="text-center text-orange-500 text-[3rem]">Jai Vinayaka</h1>
+      <p>{JSON.stringify(matchApiData)}</p>
+      <hr />
+      <p>{JSON.stringify(ballByBallApiData)}</p>
     </>
   );
 }
