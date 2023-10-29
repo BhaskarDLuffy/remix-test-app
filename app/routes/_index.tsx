@@ -3,7 +3,7 @@ import type { MetaFunction } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { useQuery, dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { json } from "@remix-run/cloudflare";
-import { getPresentMatchParameters, getMatchIntervalPeriod } from "~/services/cricket/MatchServices";
+import { getPresentMatchParameters, getMatchIntervalPeriod, getMatchTimePeriod } from "~/services/cricket/MatchServices";
 
 export const meta: MetaFunction = () => {
   return [
@@ -30,12 +30,15 @@ export const loader = async () => {
     queryKey: ['cricketscore'],
     queryFn: getMatchData,
   })
+  
   return json({ dehydratedState: dehydrate(queryClient) })
 };
 
 function MatchData() {
   const [ interval, setInterval ] = useState(10000)
   let matchIntervalPeriod = getMatchIntervalPeriod()
+  let matchTimePeriod = getMatchTimePeriod()
+
   useEffect(()=>{
     if(!matchIntervalPeriod!){
       setInterval(10000)
@@ -44,7 +47,10 @@ function MatchData() {
     }
   }, [])
 
-  const { data } = useQuery({ queryKey: ['cricketscore'], queryFn: getMatchData, refetchInterval:interval })
+  console.log("interval", interval);
+  
+
+  const { data } = useQuery({ queryKey: ['cricketscore'], queryFn: getMatchData, refetchInterval:interval,enabled:!!matchTimePeriod })
   console.log("loader data", data);
   
   let matchApiData = {};
