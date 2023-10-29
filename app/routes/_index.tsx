@@ -55,7 +55,6 @@ function MatchData() {
       <h1 className="text-center text-orange-500 text-[3rem]">Jai Vinayaka</h1>
       <p>{JSON.stringify(matchApiData)}</p>
       <hr />
-      <p>{JSON.stringify(ballByBallApiData)}</p>
     </>
   );
 }
