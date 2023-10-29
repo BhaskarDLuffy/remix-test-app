@@ -2,6 +2,8 @@ import type { MetaFunction } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { useQuery, dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { json } from "@remix-run/cloudflare";
+import { getPresentMatchParameters } from "~/services/cricket/MatchServices";
+
 export const meta: MetaFunction = () => {
   return [
     { title: "New Remix App" },
@@ -9,9 +11,10 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+let presentMatchParameters = getPresentMatchParameters()
 export const getMatchData = async () => {
   const response: any = await fetch(
-    `https://aadhan-test-new-worker.aadhan-test-worker.workers.dev/icc_wc_2023_g25`
+    `https://aadhan-test-new-worker.aadhan-test-worker.workers.dev/${presentMatchParameters[0].match[0].key}`
   );
   const matchData = await response.json();
   const data = await matchData;
