@@ -47,7 +47,7 @@ function MatchData() {
   const { data } = useQuery({ queryKey: ['cricketscore'], queryFn: getMatchData, refetchInterval:interval })
   console.log("loader data", data);
 
-  const matchApiData = data["match-data"].data;
+  const matchApiData = data["match-data"]?.data;
   const ballByBallApiData = data["ballbyball-data"].data;
 
   return (
