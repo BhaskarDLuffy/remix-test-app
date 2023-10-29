@@ -11,14 +11,14 @@ import {
   BowlingSkeleton,
   LiveStepperCarousel,
 } from "../components/cricket";
-// import {
+import {
 //   getBallByBallOverWise,
 //   getMatchTimePeriod,
 //   getMatchIntervalPeriod,
-//   getPresentMatchParameters,
+  getPresentMatchParameters,
 //   // getFavourateTeam,
 //   // getBetOdds,
-// } from "~/services/cricket/MatchServices";
+} from "~/services/cricket/MatchServices";
 
 export const meta: MetaFunction = () => {
   return [
