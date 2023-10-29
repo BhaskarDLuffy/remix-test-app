@@ -46,9 +46,15 @@ function MatchData() {
 
   const { data } = useQuery({ queryKey: ['cricketscore'], queryFn: getMatchData, refetchInterval:interval })
   console.log("loader data", data);
-
-  const matchApiData = data["match-data"]?.data;
-  const ballByBallApiData = data["ballbyball-data"].data;
+  
+  let matchApiData = {};
+  let ballByBallApiData = {};
+  try{
+    matchApiData = data["match-data"]?.data;
+    ballByBallApiData = data["ballbyball-data"].data;
+  }catch(error){
+    console.log(error);
+  }
 
   return (
     <>
